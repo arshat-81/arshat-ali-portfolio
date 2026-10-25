@@ -1,0 +1,5 @@
+# Everything on this site is public. Search engines and AI tools are welcome.
+User-agent: *
+Allow: /
+
+Sitemap: https://arshat-ali.runs-on.dev/sitemap.xml

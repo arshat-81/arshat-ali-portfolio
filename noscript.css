@@ -1,0 +1,3 @@
+/* what a visitor sees with scripts switched off: everything shown at once */
+.ln.px > span { clip-path: none !important; }
+[data-r], .file, .readme dl > *, .mods tbody tr, .job, .cat li, .cat header, .rows li, .edu > div { opacity: 1 !important; transform: none !important; clip-path: none !important; }

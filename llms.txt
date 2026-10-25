@@ -1,0 +1,27 @@
+# Arshat Ali
+
+> Arshat Ali is an Odoo developer from Thiruvarur, Tamil Nadu, India. He writes Odoo add-ons for upgrades, access control, backups, APIs and AI, and publishes them on the Odoo Apps Store under the name ModuleDex. Sixteen add-ons are live, for Odoo 17 to 20. He has worked with Odoo since March 2024 and is open to Odoo roles, including abroad, and to freelance work.
+
+## Pages
+
+- [Home](https://arshat-ali.runs-on.dev/): the add-ons, skills, experience, how they are tested, and how to get in touch.
+- [Send a query](https://arshat-ali.runs-on.dev/query): a form that sends a message to his email inbox. Use this to reach him.
+- [Resume (PDF)](https://arshat-ali.runs-on.dev/arshat-ali-resume.pdf): a one-page resume without a phone number.
+
+## Add-ons on the Odoo Apps Store (ModuleDex)
+
+- [Module Migration AI](https://apps.odoo.com/apps/modules/19.0/ai_module_migrator/): moves a custom Odoo module between versions 11 to 20, with a static report and AI migration file by file.
+- [MCP Server and Audit](https://apps.odoo.com/apps/modules/19.0/mdx_mcp_server/): lets AI assistants work with Odoo over the Model Context Protocol, with per-tool permissions, approvals and a call log.
+- [REST API](https://apps.odoo.com/apps/modules/19.0/mdx_api_gateway/): scoped API keys per integration, signed webhooks, OAuth client credentials and an audit log.
+- [S3 Attachment Storage](https://apps.odoo.com/apps/modules/19.0/mdx_object_storage/): moves the Odoo filestore into an S3-compatible bucket.
+- [User Access Control](https://apps.odoo.com/apps/modules/19.0/mdx_access_control/): hides fields, buttons, tabs and menus, or blocks models, per user profile.
+- [Access Rights Manager](https://apps.odoo.com/apps/modules/19.0/mdx_access_manager/): shows what each user can really do, and why.
+- [Performance Auditor](https://apps.odoo.com/apps/modules/19.0/mdx_perf_auditor/): more than 40 read-only checks on the database, the ORM and scheduled jobs.
+- [Database Backup](https://apps.odoo.com/apps/modules/19.0/mdx_backup_manager/): scheduled backups in Odoo's own restore format.
+- [Credential Encryption](https://apps.odoo.com/apps/modules/19.0/mdx_credential_vault/): encrypts stored secrets such as mail passwords and API keys.
+- [Upgrade Scanner](https://apps.odoo.com/apps/modules/19.0/mdx_upgrade_scanner/): finds deprecated or removed Odoo API in custom code.
+- [All ModuleDex add-ons](https://apps.odoo.com/apps/modules/browse?author=ModuleDex)
+
+## Elsewhere
+
+- [LinkedIn](https://www.linkedin.com/in/arshat-ali)

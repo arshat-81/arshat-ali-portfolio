@@ -4,6 +4,14 @@
   var fine = window.matchMedia && matchMedia("(hover: hover) and (pointer: fine)").matches;
   var $$ = function (s, c) { return Array.prototype.slice.call((c || document).querySelectorAll(s)); };
 
+  /* the page links to clean addresses ("query", "./"); opened straight from disk there is no server to resolve them */
+  if (location.protocol === "file:") $$("a[href]").forEach(function (a) {
+    var h = a.getAttribute("href");
+    if (h === "query") a.setAttribute("href", "query.html");
+    else if (h === "./") a.setAttribute("href", "index.html");
+    else if (h.indexOf("./#") === 0) a.setAttribute("href", "index.html" + h.slice(2));
+  });
+
   /* ---------- contact buttons: the address is assembled here so it is not sitting in the HTML for scrapers ---------- */
   var box = document.getElementById("links");
   var mail = ["arshat_ali", "protonmail.com"];
