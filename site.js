@@ -208,6 +208,8 @@
     if (!links[id]) return;
     current = id;
     Object.keys(links).forEach(function (k) { links[k].classList.toggle("on", k === id); });
+    var tb = document.getElementById("tbsec");
+    if (tb) tb.textContent = (links[id].getAttribute("data-label") || "").split(" \u00b7 ")[0];
     place(links[id]);
   }
   setActive(current);
@@ -258,6 +260,7 @@
       body.classList.add("cur-on");
       dot.style.transform = "translate(" + mx + "px," + my + "px)";
       var t = e.target.closest ? e.target.closest("a, button, [data-cursor]") : null;
+      if (t && t.closest(".tree")) t = null;   // the sidebar has its own tooltips, so the cursor stays small over it
       var text = t ? (t.getAttribute("data-cursor") || (t.tagName === "A" ? "open" : "")) : "";
       ring.classList.toggle("hot", !!t);
       label.textContent = text;
@@ -314,6 +317,68 @@
       location.reload();
     });
   });
+
+  /* ---------- sidebar: open, or folded into a strip of icons (a menu that slides in on phones) ---------- */
+  var sidebar = document.getElementById("sidebar"), railBtn = document.querySelector(".rail-toggle");
+  var menuBtn = document.querySelector(".menu-btn"), scrim = document.getElementById("scrim");
+  var phone = window.matchMedia ? matchMedia("(max-width: 940px)") : { matches: false };
+  var drawerOpen = false;
+  function railOn() { return root.getAttribute("data-sidebar") === "rail"; }
+  function paintSidebar() {
+    if (!railBtn) return;
+    railBtn.setAttribute("aria-expanded", String(phone.matches ? drawerOpen : !railOn()));
+    railBtn.setAttribute("aria-label", phone.matches ? "Close the menu" : (railOn() ? "Expand the sidebar" : "Collapse the sidebar"));
+  }
+  function setDrawer(on) {
+    if (!sidebar) return;
+    drawerOpen = on;
+    sidebar.classList.toggle("open", on);
+    if (scrim) scrim.classList.toggle("on", on);
+    body.classList.toggle("nav-open", on);
+    if (menuBtn) menuBtn.setAttribute("aria-expanded", String(on));
+    paintSidebar();
+    if (on) { var first = sidebar.querySelector("nav a"); if (first) first.focus({ preventScroll: true }); }
+    else if (menuBtn && sidebar.contains(document.activeElement)) menuBtn.focus();
+  }
+  function toggleRail() {
+    var next = railOn() ? "open" : "rail";
+    root.setAttribute("data-sidebar", next);
+    try { localStorage.setItem("sidebar", next); } catch (e) {}
+    paintSidebar();
+    hideTip();
+    setTimeout(function () { place(links[current]); }, 460);
+  }
+  var tip = document.createElement("div");
+  tip.className = "tip";
+  tip.setAttribute("role", "tooltip");
+  body.appendChild(tip);
+  function hideTip() { tip.classList.remove("on"); }
+  function showTip(el) {
+    if (phone.matches || !railOn()) return;
+    var label = el.getAttribute("data-label") || (el.querySelector(".lbl") ? el.querySelector(".lbl").textContent : "") || el.getAttribute("aria-label") || "";
+    var r = el.getBoundingClientRect();
+    tip.textContent = label;
+    tip.style.left = Math.round(r.right + 14) + "px";
+    tip.style.top = Math.round(r.top + r.height / 2) + "px";
+    tip.classList.add("on");
+  }
+  $$(".tree nav a, .tree .motion, .tree .theme, .rail-toggle, .tree .mark").forEach(function (el) {
+    el.addEventListener("mouseenter", function () { showTip(el); });
+    el.addEventListener("focus", function () { showTip(el); });
+    el.addEventListener("mouseleave", hideTip);
+    el.addEventListener("blur", hideTip);
+  });
+  if (railBtn) railBtn.addEventListener("click", function () { if (phone.matches) setDrawer(false); else toggleRail(); });
+  if (menuBtn) menuBtn.addEventListener("click", function () { setDrawer(!drawerOpen); });
+  if (scrim) scrim.addEventListener("click", function () { setDrawer(false); });
+  if (sidebar) $$("nav a", sidebar).forEach(function (a) { a.addEventListener("click", function () { if (phone.matches) setDrawer(false); }); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && drawerOpen) setDrawer(false);
+    if (e.key === "[" && !phone.matches && !e.metaKey && !e.ctrlKey && !e.altKey && !/input|textarea|select/i.test(e.target.tagName)) toggleRail();
+  });
+  function onViewport() { if (!phone.matches && drawerOpen) setDrawer(false); paintSidebar(); place(links[current]); }
+  if (phone.addEventListener) phone.addEventListener("change", onViewport); else if (phone.addListener) phone.addListener(onViewport);
+  paintSidebar();
 
   /* ---------- theme: by the clock unless the visitor chose ---------- */
   var themeMeta = document.querySelector('meta[name="theme-color"]');

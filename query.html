@@ -59,6 +59,9 @@
   var theme = mode === "auto" ? byClock() : mode;
   r.setAttribute("data-theme", theme);
   r.setAttribute("data-theme-mode", mode);
+  var side = null;
+  try { side = localStorage.getItem("sidebar"); } catch (e) {}
+  r.setAttribute("data-sidebar", side === "rail" || side === "open" ? side : (window.innerWidth < 1100 ? "rail" : "open"));
   var meta = document.querySelector('meta[name="theme-color"]');
   if (meta) meta.setAttribute("content", theme === "dark" ? "#090e16" : "#eef1f6");
 
@@ -71,7 +74,7 @@
 })();
 </script>
 <noscript><link rel="stylesheet" href="noscript.css"></noscript>
-<link rel="stylesheet" href="site.css?v=9">
+<link rel="stylesheet" href="site.css?v=10">
 </head>
 <body data-noboot>
 <svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false"><defs>
@@ -106,30 +109,43 @@
 <symbol id="i-moon" viewBox="0 0 24 24"><path class="ac" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></symbol>
 <symbol id="i-send" viewBox="0 0 24 24"><path class="ac" d="M21 3 3 10.5l7 3z"/><path d="M21 3 3 10.5l7 3 3 7zM10 13.5 21 3"/></symbol>
 <symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></symbol>
+<symbol id="i-chev" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></symbol>
+<symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+<symbol id="i-motion" viewBox="0 0 24 24"><path class="ac" d="M2.5 12c2-6 4-6 6 0s4 6 6 0 3-4 4.5-4V12z"/><path d="M2.5 12c2-6 4-6 6 0s4 6 6 0 3-4 4.5-4"/></symbol>
 </defs></svg>
 <a class="skip" href="#main">Skip to content</a>
 <div id="bar" aria-hidden="true"></div>
 
+<div class="scrim" id="scrim" aria-hidden="true"></div>
+
 <div class="shell">
 
-<aside class="tree" aria-label="Sections of this page">
-  <a class="mark" href="#manifest" aria-label="Top of page">
-    <svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="circ" d="M50,50 m-41,0 a41,41 0 1,1 82,0 a41,41 0 1,1 -82,0"/></defs><text><textPath href="#circ" textLength="254" lengthAdjust="spacing">ARSHAT ALI &#183; ODOO &#183; MODULEDEX &#183; SINCE 2024 &#183; </textPath></text></svg>
-    <span>A</span>
-  </a>
+<header class="topbar">
+  <button class="menu-btn" type="button" aria-controls="sidebar" aria-expanded="false" aria-label="Open the menu"><svg class="ic" aria-hidden="true"><use href="#i-menu"/></svg></button>
+  <p class="tb-title">arshat_ali/<b id="tbsec"></b></p>
+</header>
+
+<aside class="tree" id="sidebar" aria-label="Sections of this page">
+  <div class="tree-head">
+    <a class="mark" href="#manifest" aria-label="Top of page">
+      <svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="circ" d="M50,50 m-41,0 a41,41 0 1,1 82,0 a41,41 0 1,1 -82,0"/></defs><text><textPath href="#circ" textLength="254" lengthAdjust="spacing">ARSHAT ALI &#183; ODOO &#183; MODULEDEX &#183; SINCE 2024 &#183; </textPath></text></svg>
+      <span>A</span>
+    </a>
+    <button class="rail-toggle" type="button" aria-controls="sidebar" aria-expanded="true" aria-label="Collapse the sidebar"><svg class="ic" aria-hidden="true"><use href="#i-chev"/></svg></button>
+  </div>
   <p class="tree-root">arshat_ali/</p>
   <nav>
     <div class="ind" aria-hidden="true"></div>
-    <a href="./#manifest"><span class="br" aria-hidden="true"></span>__manifest__.py</a>
-    <a href="./#models"><span class="br" aria-hidden="true"></span>models/<small>add-ons</small></a>
-    <a href="./#depends"><span class="br" aria-hidden="true"></span>depends/<small>skills</small></a>
-    <a href="./#migrations"><span class="br" aria-hidden="true"></span>migrations/<small>experience</small></a>
-    <a href="./#tests"><span class="br" aria-hidden="true"></span>tests/<small>how I check</small></a>
-    <a href="./#readme"><span class="br" aria-hidden="true"></span>README<small>contact, cv</small></a>
-    <a href="#query"><span class="br" aria-hidden="true"></span>query/<small>send a message</small></a>
+    <a href="./#manifest" data-label="__manifest__.py"><span class="br" aria-hidden="true"></span><svg class="ic ni" aria-hidden="true"><use href="#i-doc"/></svg><span class="lb">__manifest__.py</span></a>
+    <a href="./#models" data-label="models/ · add-ons"><span class="br" aria-hidden="true"></span><svg class="ic ni" aria-hidden="true"><use href="#i-cube"/></svg><span class="lb">models/<small>add-ons</small></span></a>
+    <a href="./#depends" data-label="depends/ · skills"><span class="br" aria-hidden="true"></span><svg class="ic ni" aria-hidden="true"><use href="#i-code"/></svg><span class="lb">depends/<small>skills</small></span></a>
+    <a href="./#migrations" data-label="migrations/ · experience"><span class="br" aria-hidden="true"></span><svg class="ic ni" aria-hidden="true"><use href="#i-case"/></svg><span class="lb">migrations/<small>experience</small></span></a>
+    <a href="./#tests" data-label="tests/ · how I check"><span class="br" aria-hidden="true"></span><svg class="ic ni" aria-hidden="true"><use href="#i-test"/></svg><span class="lb">tests/<small>how I check</small></span></a>
+    <a href="./#readme" data-label="README · contact, cv"><span class="br" aria-hidden="true"></span><svg class="ic ni" aria-hidden="true"><use href="#i-mail"/></svg><span class="lb">README<small>contact, cv</small></span></a>
+    <a href="#query" data-label="query/ · send a message"><span class="br" aria-hidden="true"></span><svg class="ic ni" aria-hidden="true"><use href="#i-send"/></svg><span class="lb">query/<small>send a message</small></span></a>
   </nav>
   <div class="tree-foot">
-    <button class="motion" type="button" aria-pressed="true" title="Turn the animations on or off for this site"><span class="sw" aria-hidden="true"></span><span class="lbl">motion: on</span></button>
+    <button class="motion" type="button" aria-pressed="true" title="Turn the animations on or off for this site"><svg class="ic mo" aria-hidden="true"><use href="#i-motion"/></svg><span class="sw" aria-hidden="true"></span><span class="lbl">motion: on</span></button>
     <button class="theme" type="button" title="Light by day, dark by evening. Click to choose light, dark or automatic."><svg class="ic" aria-hidden="true"><use href="#i-sun"/></svg><span class="lbl">theme: auto, light</span></button>
     <p>Press <kbd>d</kbd> for debug mode</p>
   </div>
@@ -211,8 +227,8 @@
   <p>Set in Public Sans and B612 Mono (open licence), with a dot-matrix display face drawn for this site. Motion follows your device's reduced-motion setting until you flip the switch. The colour theme follows your clock: light from 6 am to 6 pm, dark after that. Source of this page: <a href="https://github.com/arshat-81/arshat-ali-portfolio" target="_blank" rel="noopener">github.com/arshat-81/arshat-ali-portfolio</a></p>
 </footer>
 
-<script src="site.js?v=9" defer></script>
-<script src="query.js?v=9" defer></script>
+<script src="site.js?v=10" defer></script>
+<script src="query.js?v=10" defer></script>
 <script>
 /* Safety net: if the script above did not finish, show everything instead of leaving blanks. */
 setTimeout(function () { if (!window.__ok) { document.documentElement.classList.add("ready", "reveal-all"); var b = document.getElementById("boot"); if (b) b.remove(); document.body.classList.remove("booting"); } }, 2500);
