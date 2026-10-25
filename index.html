@@ -3,387 +3,444 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#eef1f6">
 <title>Arshat Ali | Odoo Developer</title>
-<meta name="description" content="Arshat Ali is an Odoo developer from Tamil Nadu, India. He builds add-ons for Odoo upgrades, access control, backups, AI and integrations, and publishes 16 of them on the Odoo Apps Store.">
+<meta name="description" content="Arshat Ali writes Odoo add-ons for upgrades, access control, backups, APIs and AI. Sixteen are live on the Odoo Apps Store as ModuleDex, for Odoo 17 to 20.">
 <meta property="og:title" content="Arshat Ali | Odoo Developer">
-<meta property="og:description" content="Odoo add-ons for upgrades, access control, backups, AI and integrations, published on the Odoo Apps Store as ModuleDex.">
+<meta property="og:description" content="Sixteen Odoo add-ons, four Odoo versions, one person. Published on the Odoo Apps Store as ModuleDex.">
 <meta property="og:type" content="website">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232a5bd7'/%3E%3Cpath d='M16 46V18l16 18 16-18v28' fill='none' stroke='white' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
-<style>
-:root {
-  --bg: #f6f4ee;
-  --surface: #ffffff;
-  --ink: #14202b;
-  --muted: #53636f;
-  --line: #e0dccf;
-  --accent: #2a5bd7;
-  --accent-ink: #ffffff;
-  --accent-soft: #e6ecfb;
-  --radius: 14px;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --bg: #0f1a24;
-    --surface: #16232f;
-    --ink: #eaf0f5;
-    --muted: #9db0bf;
-    --line: #26394a;
-    --accent: #6f95f2;
-    --accent-ink: #0f1a24;
-    --accent-soft: #1b2c44;
-  }
-}
-:root[data-theme="dark"] {
-  --bg: #0f1a24;
-  --surface: #16232f;
-  --ink: #eaf0f5;
-  --muted: #9db0bf;
-  --line: #26394a;
-  --accent: #6f95f2;
-  --accent-ink: #0f1a24;
-  --accent-soft: #1b2c44;
-}
-* { box-sizing: border-box; }
-html { scroll-behavior: smooth; }
-body {
-  margin: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font: 17px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-}
-a { color: var(--accent); text-underline-offset: 3px; }
-a:hover { text-decoration-thickness: 2px; }
-.wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
-h1, h2, h3 { line-height: 1.2; margin: 0; letter-spacing: -0.01em; }
-h2 { font-size: 1.7rem; margin-bottom: 8px; }
-.lead { color: var(--muted); max-width: 62ch; margin: 0 0 28px; }
-section { padding: 56px 0; border-top: 1px solid var(--line); }
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%235848c0'/%3E%3Cpath d='M17 47 32 15l15 32M23 37h18' fill='none' stroke='white' stroke-width='6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preload" href="fonts/matrix.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/body.woff2" as="font" type="font/woff2" crossorigin>
+<script>
+/* Motion follows the device's reduced-motion setting. The colour theme follows the visitor's own clock: light from 6 am to 6 pm, dark otherwise.
+   Both can be overridden with the switches on the page, or once with ?motion=on|off and ?theme=light|dark|auto. */
+(function () {
+  var r = document.documentElement, store = {};
+  ["motion", "theme"].forEach(function (k) { try { store[k] = localStorage.getItem(k); } catch (e) {} });
+  try {
+    var qs = new URLSearchParams(location.search), strip = false;
+    [["motion", /^(on|off)$/], ["theme", /^(light|dark|auto)$/]].forEach(function (p) {
+      var v = qs.get(p[0]);
+      if (v === null) return;
+      strip = true; qs.delete(p[0]);
+      if (p[1].test(v)) { store[p[0]] = v; try { localStorage.setItem(p[0], v); } catch (e) {} }
+    });
+    if (strip) { var rest = qs.toString(); history.replaceState(null, "", location.pathname + (rest ? "?" + rest : "") + location.hash); }
+  } catch (e) {}
 
-/* header */
-header.top { position: sticky; top: 0; z-index: 10; background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); border-bottom: 1px solid var(--line); }
-header.top .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; height: 58px; }
-.brand { font-weight: 700; text-decoration: none; color: var(--ink); white-space: nowrap; }
-nav { display: flex; gap: 18px; font-size: 0.95rem; flex-wrap: wrap; justify-content: flex-end; }
-nav a { color: var(--muted); text-decoration: none; }
-nav a { white-space: nowrap; }
-nav a:hover { color: var(--ink); }
+  var LIGHT_FROM = 6, DARK_FROM = 18;
+  function byClock() { var h = new Date().getHours(); return h >= LIGHT_FROM && h < DARK_FROM ? "light" : "dark"; }
+  window.mdxTheme = { byClock: byClock };
+  var mode = store.theme === "light" || store.theme === "dark" ? store.theme : "auto";
+  var theme = mode === "auto" ? byClock() : mode;
+  r.setAttribute("data-theme", theme);
+  r.setAttribute("data-theme-mode", mode);
+  var meta = document.querySelector('meta[name="theme-color"]');
+  if (meta) meta.setAttribute("content", theme === "dark" ? "#090e16" : "#eef1f6");
 
-/* hero */
-.hero { padding: 72px 0 56px; border-top: 0; }
-.eyebrow { color: var(--accent); font-weight: 600; font-size: 0.9rem; letter-spacing: 0.04em; text-transform: uppercase; margin: 0 0 14px; }
-.hero h1 { font-size: clamp(2.1rem, 5vw, 3.2rem); max-width: 18ch; }
-.hero p.sub { font-size: 1.15rem; color: var(--muted); max-width: 58ch; margin: 18px 0 26px; }
-.cta { display: flex; flex-wrap: wrap; gap: 12px; }
-.btn { display: inline-block; padding: 11px 20px; border-radius: 999px; font-weight: 600; text-decoration: none; border: 1.5px solid var(--accent); }
-.btn.primary { background: var(--accent); color: var(--accent-ink); }
-.btn.ghost { color: var(--accent); }
-.btn:hover { filter: brightness(1.08); }
-.status { margin-top: 26px; display: inline-flex; gap: 10px; align-items: center; font-size: 0.95rem; color: var(--muted); }
-.dot { width: 9px; height: 9px; border-radius: 50%; background: #2fa36b; flex: none; }
-
-/* stats */
-.stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 14px; margin-top: 8px; }
-.stat { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 20px; }
-.stat b { display: block; font-size: 1.9rem; line-height: 1.1; }
-.stat span { color: var(--muted); font-size: 0.95rem; }
-
-/* app cards */
-.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(290px, 1fr)); gap: 18px; }
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; display: flex; flex-direction: column; }
-.card img { display: block; width: 100%; height: auto; aspect-ratio: 2 / 1; background: var(--accent-soft); }
-.card .body { padding: 16px 18px 18px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
-.card h3 { font-size: 1.1rem; }
-.card p { margin: 0; color: var(--muted); font-size: 0.97rem; }
-.tag { align-self: flex-start; font-size: 0.78rem; font-weight: 600; padding: 2px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent); }
-.card a.more { margin-top: auto; padding-top: 6px; font-weight: 600; font-size: 0.95rem; }
-.more-note { margin-top: 22px; color: var(--muted); }
-
-/* two-column lists */
-.cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 18px; }
-.panel { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; }
-.panel h3 { font-size: 1.1rem; margin-bottom: 8px; }
-.panel ul { margin: 0; padding-left: 1.1em; color: var(--muted); }
-.panel li { margin: 6px 0; }
-.panel li b { color: var(--ink); font-weight: 600; }
-
-/* timeline */
-.timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
-.timeline li { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 20px; }
-.timeline .when { color: var(--accent); font-weight: 600; font-size: 0.9rem; }
-.timeline h3 { font-size: 1.05rem; margin: 2px 0 4px; }
-.timeline p { margin: 0; color: var(--muted); font-size: 0.97rem; }
-
-/* contact */
-.contact { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 18px; }
-footer { padding: 28px 0 44px; border-top: 1px solid var(--line); color: var(--muted); font-size: 0.92rem; }
-:focus-visible { outline: 3px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
-@media (max-width: 560px) {
-  nav { gap: 14px; font-size: 0.9rem; flex-wrap: nowrap; }
-  nav a.hide-sm { display: none; }
-  section { padding: 44px 0; }
-  .hero { padding-top: 48px; }
-}
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-</style>
+  var device = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
+  var reduce = store.motion === "on" ? false : store.motion === "off" ? true : device;
+  r.classList.add("js");
+  if (reduce) r.classList.add("rm", "ready");
+  r.setAttribute("data-motion", reduce ? "off" : "on");
+  r.setAttribute("data-device-reduces", device ? "yes" : "no");
+})();
+</script>
+<noscript><style>.ln.px > span { clip-path: none !important; } [data-r], .file, .readme dl > *, .mods tbody tr, .job, .cat li, .cat header, .rows li, .edu > div { opacity: 1 !important; transform: none !important; clip-path: none !important; }</style></noscript>
+<link rel="stylesheet" href="site.css?v=8">
 </head>
 <body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<symbol id="i-cube" viewBox="0 0 24 24"><path class="ac" d="M12 3 20 7.5 12 12 4 7.5z"/><path d="M12 3 20 7.5v9L12 21 4 16.5v-9zM12 12v9M4 7.5 12 12l8-4.5"/></symbol>
+<symbol id="i-up" viewBox="0 0 24 24"><path class="ac" d="M3 20h5v-5h5v-5h5v10z"/><path d="M3 20h5v-5h5v-5h5M18 10V3M15 6l3-3 3 3"/></symbol>
+<symbol id="i-plug" viewBox="0 0 24 24"><path class="ac" d="M6 8h12v3a6 6 0 0 1-12 0z"/><path d="M9 3v5M15 3v5M6 8h12v3a6 6 0 0 1-12 0zM12 17v4"/></symbol>
+<symbol id="i-db" viewBox="0 0 24 24"><path class="ac" d="M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3z"/><path d="M4 6c0-1.7 3.6-3 8-3s8 1.3 8 3-3.6 3-8 3-8-1.3-8-3zM4 6v12c0 1.7 3.6 3 8 3s8-1.3 8-3V6M4 12c0 1.7 3.6 3 8 3s8-1.3 8-3"/></symbol>
+<symbol id="i-shield" viewBox="0 0 24 24"><path class="ac" d="M12 3l8 3v6c0 5-3.4 8.2-8 9-4.6-.8-8-4-8-9V6z"/><path d="M12 3l8 3v6c0 5-3.4 8.2-8 9-4.6-.8-8-4-8-9V6zM8.5 12l2.5 2.5 4.5-5"/></symbol>
+<symbol id="i-test" viewBox="0 0 24 24"><path class="ac" d="M7.6 15h8.8l2.6 4.2a2 2 0 0 1-1.7 2.8H6.7A2 2 0 0 1 5 19.2z"/><path d="M9 3h6M10 3v6l-5.2 9.2A2 2 0 0 0 6.5 21h11a2 2 0 0 0 1.7-2.8L14 9V3M7.6 15h8.8"/></symbol>
+<symbol id="i-case" viewBox="0 0 24 24"><path class="ac" d="M4 8h16v5H4z"/><path d="M4 8h16v11H4zM9 8V5h6v3M4 13h16"/></symbol>
+<symbol id="i-key" viewBox="0 0 24 24"><circle class="ac" cx="8" cy="15" r="4"/><circle cx="8" cy="15" r="4"/><path d="M11 12l9-9M17 6l3 3M14 9l2 2"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24"><path class="ac" d="M4 5h16v11H11l-4 4v-4H4z"/><path d="M4 5h16v11H11l-4 4v-4H4zM8.5 10.5h.01M12 10.5h.01M15.5 10.5h.01"/></symbol>
+<symbol id="i-clock" viewBox="0 0 24 24"><circle class="ac" cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></symbol>
+<symbol id="i-lock" viewBox="0 0 24 24"><rect class="ac" x="5" y="11" width="14" height="9" rx="2"/><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3M12 15v2"/></symbol>
+<symbol id="i-scan" viewBox="0 0 24 24"><circle class="ac" cx="11" cy="11" r="6"/><circle cx="11" cy="11" r="6"/><path d="M20 20l-4.5-4.5"/></symbol>
+<symbol id="i-gauge" viewBox="0 0 24 24"><path class="ac" d="M4 17a8 8 0 0 1 16 0z"/><path d="M4 17a8 8 0 1 1 16 0M12 17l4-5M3 20h18"/></symbol>
+<symbol id="i-cloud" viewBox="0 0 24 24"><path class="ac" d="M7 18a4 4 0 0 1-.5-8 5.5 5.5 0 0 1 10.8-1A4.5 4.5 0 0 1 17 18z"/><path d="M7 18a4 4 0 0 1-.5-8 5.5 5.5 0 0 1 10.8-1A4.5 4.5 0 0 1 17 18zM12 11v5M9.8 13.2L12 11l2.2 2.2"/></symbol>
+<symbol id="i-box" viewBox="0 0 24 24"><path class="ac" d="M3 5h18v4H3z"/><path d="M3 5h18v4H3zM5 9v10h14V9M10 13h4"/></symbol>
+<symbol id="i-mail" viewBox="0 0 24 24"><rect class="ac" x="3" y="5" width="18" height="14" rx="2"/><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3.5 6.5 12 13l8.5-6.5"/></symbol>
+<symbol id="i-link" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></symbol>
+<symbol id="i-down" viewBox="0 0 24 24"><path class="ac" d="M5 17h14v3H5z"/><path d="M12 4v11M7.5 11 12 15.5 16.5 11M5 20h14"/></symbol>
+<symbol id="i-flip" viewBox="0 0 24 24"><path d="M20 11a8 8 0 0 0-14.5-3.5M4 4v4.5h4.5M4 13a8 8 0 0 0 14.5 3.5M20 20v-4.5h-4.5"/></symbol>
+<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+<symbol id="i-branch" viewBox="0 0 24 24"><circle class="ac" cx="6" cy="18" r="3"/><circle cx="6" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="9" r="3"/><path d="M6 9v6M18 12c0 4-6 3-9.2 5"/></symbol>
+<symbol id="i-users" viewBox="0 0 24 24"><circle class="ac" cx="9" cy="8" r="3.5"/><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0M16 4.8a3.5 3.5 0 0 1 0 6.4M18 14.2a6.5 6.5 0 0 1 3.5 5.8"/></symbol>
+<symbol id="i-doc" viewBox="0 0 24 24"><path class="ac" d="M6 3h8l4 4v14H6z"/><path d="M6 3h8l4 4v14H6zM14 3v4h4M9 12h6M9 16h6"/></symbol>
+<symbol id="i-cap" viewBox="0 0 24 24"><path class="ac" d="M2 9l10-5 10 5-10 5z"/><path d="M2 9l10-5 10 5-10 5zM6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24"><path class="ac" d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"/><path d="M12 21s-7-6-7-11a7 7 0 0 1 14 0c0 5-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+<symbol id="i-code" viewBox="0 0 24 24"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5M14 4l-4 16"/></symbol>
+<symbol id="i-eye" viewBox="0 0 24 24"><path class="ac" d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+<symbol id="i-sun" viewBox="0 0 24 24"><circle class="ac" cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="4.5"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.6 1.6M17.1 17.1l1.6 1.6M18.7 5.3l-1.6 1.6M6.9 17.1l-1.6 1.6"/></symbol>
+<symbol id="i-moon" viewBox="0 0 24 24"><path class="ac" d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5z"/></symbol>
+<symbol id="i-send" viewBox="0 0 24 24"><path class="ac" d="M21 3 3 10.5l7 3z"/><path d="M21 3 3 10.5l7 3 3 7zM10 13.5 21 3"/></symbol>
+<symbol id="i-check" viewBox="0 0 24 24"><path d="M4 12.5l5 5L20 6.5"/></symbol>
+</defs></svg>
+<a class="skip" href="#main">Skip to content</a>
+<div id="bar" aria-hidden="true"></div>
 
-<header class="top">
-  <div class="wrap">
-    <a class="brand" href="#top">Arshat Ali</a>
-    <nav aria-label="Sections">
-      <a href="#apps">Add-ons</a>
-      <a class="hide-sm" href="#how">How I build</a>
-      <a href="#work">Experience</a>
-      <a href="#contact">Contact</a>
-    </nav>
+<div class="shell">
+
+<aside class="tree" aria-label="Sections of this page">
+  <a class="mark" href="#manifest" aria-label="Top of page">
+    <svg class="ring" viewBox="0 0 100 100" aria-hidden="true"><defs><path id="circ" d="M50,50 m-41,0 a41,41 0 1,1 82,0 a41,41 0 1,1 -82,0"/></defs><text><textPath href="#circ" textLength="254" lengthAdjust="spacing">ARSHAT ALI &#183; ODOO &#183; MODULEDEX &#183; SINCE 2024 &#183; </textPath></text></svg>
+    <span>A</span>
+  </a>
+  <p class="tree-root">arshat_ali/</p>
+  <nav>
+    <div class="ind" aria-hidden="true"></div>
+    <a href="#manifest"><span class="br" aria-hidden="true"></span>__manifest__.py</a>
+    <a href="#models"><span class="br" aria-hidden="true"></span>models/<small>add-ons</small></a>
+    <a href="#depends"><span class="br" aria-hidden="true"></span>depends/<small>skills</small></a>
+    <a href="#migrations"><span class="br" aria-hidden="true"></span>migrations/<small>experience</small></a>
+    <a href="#tests"><span class="br" aria-hidden="true"></span>tests/<small>how I check</small></a>
+    <a href="#readme"><span class="br" aria-hidden="true"></span>README<small>contact, cv</small></a>
+    <a href="query.html"><span class="br" aria-hidden="true"></span>query/<small>send a message</small></a>
+  </nav>
+  <div class="tree-foot">
+    <button class="motion" type="button" aria-pressed="true" title="Turn the animations on or off for this site"><span class="sw" aria-hidden="true"></span><span class="lbl">motion: on</span></button>
+    <button class="theme" type="button" title="Light by day, dark by evening. Click to choose light, dark or automatic."><svg class="ic" aria-hidden="true"><use href="#i-sun"/></svg><span class="lbl">theme: auto, light</span></button>
+    <p>Press <kbd>d</kbd> for debug mode</p>
   </div>
-</header>
+</aside>
 
-<main id="top">
+<main id="main">
 
-<section class="hero">
-  <div class="wrap">
-    <p class="eyebrow">Odoo developer &middot; Tamil Nadu, India</p>
-    <h1>I build the Odoo <span style="white-space:nowrap">add-ons</span> teams wish already existed.</h1>
-    <p class="sub">Upgrades, access control, backups, API access and AI for Odoo. Sixteen of them are published on the Odoo Apps Store under the name ModuleDex, for Odoo 17 to 20.</p>
-    <div class="cta">
-      <a class="btn primary" href="#apps">See the add-ons</a>
-      <a class="btn ghost" href="#contact">Get in touch</a>
-    </div>
-    <p class="status"><span class="dot" aria-hidden="true"></span> Open to Odoo roles, including relocating abroad.</p>
-  </div>
+<section id="manifest" data-file="__manifest__.py">
+  <div class="stamp">Open to work<small>roles abroad &middot; freelance</small></div>
+  <p class="file">arshat_ali/__manifest__.py</p>
+  <h1><span class="ln px" style="--l:0"><span>Odoo developer.</span></span><span class="ln l2" style="--l:1"><span>Sixteen modules, four</span></span><span class="ln l2" style="--l:2"><span>versions, <mark>one person</mark>.</span></span></h1>
+  <p class="lead" data-r>I am Arshat Ali, from Thiruvarur in Tamil Nadu. I write Odoo add-ons for upgrades, access control, backups, APIs and AI, and publish them on the Odoo Apps Store under the name ModuleDex. I have worked with Odoo since March 2024.</p>
+
+  <pre class="manifest" data-r aria-label="A manifest file describing Arshat Ali"><code><span class="cl cap" style="--i:0"># what a recruiter would call a summary</span><span class="cl" style="--i:1">{</span><span class="cl" style="--i:2">    <span class="k">"name"</span>: <span class="s">"Arshat Ali"</span>,</span><span class="cl" style="--i:3">    <span class="k">"summary"</span>: <span class="s">"Odoo developer. Upgrades, access control, APIs, AI."</span>,</span><span class="cl" style="--i:4">    <span class="k">"author"</span>: <span class="s">"ModuleDex"</span>,</span><span class="cl" style="--i:5">    <span class="k">"website"</span>: <span class="s">"arshat-ali.runs-on.dev"</span>,</span><span class="cl" style="--i:6">    <span class="k">"depends"</span>: [<span class="s">"python"</span>, <span class="s">"postgresql"</span>, <span class="s">"odoo"</span>],</span><span class="cl" style="--i:7">    <span class="k">"languages"</span>: [<span class="s">"en"</span>, <span class="s">"ta"</span>],</span><span class="cl" style="--i:8">    <span class="k">"installable"</span>: <span class="t">True</span>,</span><span class="cl" style="--i:9">    <span class="k">"application"</span>: <span class="t">True</span>,</span><span class="cl" style="--i:10">}<span class="caret" aria-hidden="true"></span></span></code></pre>
+
+  <p class="status" data-r><span><b data-count="16">16</b> add-ons live</span><span>Odoo <b>17 to 20</b></span><span><b data-count="355">355</b> tests, ten of them together</span><span>Thiruvarur, India</span></p>
+
+  <figure class="vers" data-r>
+    <div class="vcols" role="group" aria-label="Add-ons on the Odoo Apps Store, by Odoo version"></div>
+    <figcaption>Each square is one add-on, in the same place on every version. Dashed squares are not on the store for that version. Counted from the store on 26 October 2026. Pick a version to filter the list below.</figcaption>
+  </figure>
 </section>
 
-<section aria-label="At a glance">
-  <div class="wrap">
-    <div class="stats">
-      <div class="stat"><b>16</b><span>add-ons live on the Odoo Apps Store</span></div>
-      <div class="stat"><b>17 &ndash; 20</b><span>Odoo versions the add-ons are built for</span></div>
-      <div class="stat"><b>355</b><span>automated tests passing across ten of them, on a fresh Odoo 17 database</span></div>
-      <div class="stat"><b>2024</b><span>working with Odoo since March</span></div>
-    </div>
-  </div>
-</section>
+<div class="band-wrap" aria-hidden="true">
+  <div class="band" data-base="1"><div class="track"><span>mdx_mcp_server <em></em> mdx_api_gateway <em></em> mdx_object_storage <em></em> ai_module_migrator <em></em> mdx_access_manager <em></em> mdx_access_control <em></em> mdx_perf_auditor <em></em> mdx_backup_manager <em></em> mdx_credential_vault <em></em> mdx_upgrade_scanner <em></em> </span><span>mdx_mcp_server <em></em> mdx_api_gateway <em></em> mdx_object_storage <em></em> ai_module_migrator <em></em> mdx_access_manager <em></em> mdx_access_control <em></em> mdx_perf_auditor <em></em> mdx_backup_manager <em></em> mdx_credential_vault <em></em> mdx_upgrade_scanner <em></em> </span></div></div>
+</div>
 
-<section id="apps">
-  <div class="wrap">
-    <h2>Add-ons on the Odoo Apps Store</h2>
-    <p class="lead">Each one solves a problem I kept running into on real Odoo projects. The screenshots are the store banners; follow a link to read the full listing.</p>
+<section id="models" data-file="models/">
+  <p class="file">arshat_ali/models/</p>
+  <h2 data-r><span class="hi"><svg class="ic" aria-hidden="true"><use href="#i-cube"/></svg></span>Add-ons</h2>
+  <p data-r>Three I would show first, then the rest in a table. Every one is on the <a href="https://apps.odoo.com/apps/modules/browse?author=ModuleDex" target="_blank" rel="noopener">Odoo Apps Store</a>. Click a banner to flip it.</p>
 
-    <div class="grid">
-
-      <article class="card">
-        <img src="img/ai_module_migrator.webp" width="800" height="400" loading="lazy" alt="Odoo Module Migration AI banner">
-        <div class="body">
-          <span class="tag">Upgrades</span>
-          <h3>Odoo Module Migration AI</h3>
-          <p>Moves a custom add-on between Odoo versions 11 to 20. It scans the module, writes a report of what will break, then uses AI to migrate it file by file through its own job queue.</p>
-          <a class="more" href="https://apps.odoo.com/apps/modules/19.0/ai_module_migrator/" target="_blank" rel="noopener">View on the Apps Store &rarr;</a>
-        </div>
-      </article>
-
-      <article class="card">
-        <img src="img/mdx_upgrade_scanner.webp" width="800" height="400" loading="lazy" alt="Odoo Upgrade Scanner banner">
-        <div class="body">
-          <span class="tag">Upgrades &middot; free</span>
-          <h3>Odoo Upgrade Scanner</h3>
-          <p>Finds code that Odoo has deprecated or removed. Each rule records which release marked it and which release removed it, so you can see what is already gone and what goes next.</p>
-          <a class="more" href="https://apps.odoo.com/apps/modules/19.0/mdx_upgrade_scanner/" target="_blank" rel="noopener">View on the Apps Store &rarr;</a>
-        </div>
-      </article>
-
-      <article class="card">
-        <img src="img/mdx_mcp_server.webp" width="800" height="400" loading="lazy" alt="Odoo MCP Server banner">
-        <div class="body">
-          <span class="tag">AI</span>
-          <h3>Odoo MCP Server</h3>
-          <p>Lets AI assistants such as Claude and ChatGPT work with Odoo over the Model Context Protocol, with per-tool permissions, approvals and a log of every call.</p>
-          <a class="more" href="https://apps.odoo.com/apps/modules/19.0/mdx_mcp_server/" target="_blank" rel="noopener">View on the Apps Store &rarr;</a>
-        </div>
-      </article>
-
-      <article class="card">
-        <img src="img/mdx_api_gateway.webp" width="800" height="400" loading="lazy" alt="Odoo REST API banner">
-        <div class="body">
-          <span class="tag">Integrations</span>
-          <h3>Odoo REST API</h3>
-          <p>One key per integration, each reaching only the models and fields it needs. Adds signed webhooks and an audit log of every request.</p>
-          <a class="more" href="https://apps.odoo.com/apps/modules/19.0/mdx_api_gateway/" target="_blank" rel="noopener">View on the Apps Store &rarr;</a>
-        </div>
-      </article>
-
-      <article class="card">
-        <img src="img/mdx_access_manager.webp" width="800" height="400" loading="lazy" alt="Odoo Access Rights Manager banner">
-        <div class="body">
-          <span class="tag">Security</span>
-          <h3>Odoo Access Rights Manager</h3>
-          <p>Shows what each user can really do, with a &ldquo;why?&rdquo; on every row, side-by-side comparison of two users and a log of access changes.</p>
-          <a class="more" href="https://apps.odoo.com/apps/modules/19.0/mdx_access_manager/" target="_blank" rel="noopener">View on the Apps Store &rarr;</a>
-        </div>
-      </article>
-
-      <article class="card">
-        <img src="img/mdx_access_control.webp" width="800" height="400" loading="lazy" alt="Odoo User Access Control banner">
-        <div class="body">
-          <span class="tag">Security</span>
-          <h3>Odoo User Access Control</h3>
-          <p>Profiles that hide fields, buttons, tabs and menus or block whole models for chosen users. You can preview a profile before turning it on, and blocked attempts are logged.</p>
-          <a class="more" href="https://apps.odoo.com/apps/modules/19.0/mdx_access_control/" target="_blank" rel="noopener">View on the Apps Store &rarr;</a>
-        </div>
-      </article>
-
-      <article class="card">
-        <img src="img/mdx_object_storage.webp" width="800" height="400" loading="lazy" alt="S3 Attachment Storage banner">
-        <div class="body">
-          <span class="tag">Infrastructure</span>
-          <h3>S3 Attachment Storage</h3>
-          <p>Moves the Odoo filestore into an S3-compatible bucket such as Amazon S3, MinIO or Ceph. If the bucket is unreachable, work carries on and files upload later. Backups still include the bucket files.</p>
-          <a class="more" href="https://apps.odoo.com/apps/modules/19.0/mdx_object_storage/" target="_blank" rel="noopener">View on the Apps Store &rarr;</a>
-        </div>
-      </article>
-
-      <article class="card">
-        <img src="img/mdx_backup_manager.webp" width="800" height="400" loading="lazy" alt="Odoo database backup banner">
-        <div class="body">
-          <span class="tag">Infrastructure</span>
-          <h3>Odoo Database Backup</h3>
-          <p>Scheduled backups in Odoo&rsquo;s own restore format: database dump, manifest and filestore. Destination passwords are stored encrypted.</p>
-          <a class="more" href="https://apps.odoo.com/apps/modules/19.0/mdx_backup_manager/" target="_blank" rel="noopener">View on the Apps Store &rarr;</a>
-        </div>
-      </article>
-
-      <article class="card">
-        <img src="img/mdx_perf_auditor.webp" width="800" height="400" loading="lazy" alt="Odoo Performance Auditor banner">
-        <div class="body">
-          <span class="tag">Infrastructure</span>
-          <h3>Odoo Performance Auditor</h3>
-          <p>A read-only audit of the database, the ORM and scheduled jobs. More than 40 checks, each with a plain recommendation, and a dashboard to track findings over time.</p>
-          <a class="more" href="https://apps.odoo.com/apps/modules/19.0/mdx_perf_auditor/" target="_blank" rel="noopener">View on the Apps Store &rarr;</a>
-        </div>
-      </article>
-
-      <article class="card">
-        <img src="img/mdx_credential_vault.webp" width="800" height="400" loading="lazy" alt="Odoo Credential Encryption banner">
-        <div class="body">
-          <span class="tag">Security &middot; free</span>
-          <h3>Odoo Credential Encryption</h3>
-          <p>Encrypts stored secrets such as mail passwords and API keys in the database, and upgrades existing plaintext values safely.</p>
-          <a class="more" href="https://apps.odoo.com/apps/modules/19.0/mdx_credential_vault/" target="_blank" rel="noopener">View on the Apps Store &rarr;</a>
-        </div>
-      </article>
-
-    </div>
-
-    <p class="more-note">Also published: a SQL query builder, an XML ID finder, an access rights simulator and a few more. <a href="https://apps.odoo.com/apps/modules/browse?author=ModuleDex" target="_blank" rel="noopener">See the full list on the Odoo Apps Store &rarr;</a></p>
-  </div>
-</section>
-
-<section id="how">
-  <div class="wrap">
-    <h2>How I build</h2>
-    <p class="lead">Things I do on every add-on, and can point to in the code.</p>
-    <div class="cols">
-      <div class="panel">
-        <h3>Tested, then ported</h3>
-        <ul>
-          <li>Most add-ons ship with their own test suite.</li>
-          <li>I ported ten of them to Odoo 17 and ran all <b>355 tests</b> together on a fresh database, then checked real backups by hand.</li>
-          <li>Every difference between Odoo versions is checked against that version&rsquo;s source, not assumed.</li>
-        </ul>
+  <article class="readme" data-mod="ai_module_migrator">
+    <p class="path" data-r><svg class="ic" aria-hidden="true"><use href="#i-up"/></svg><b>ai_module_migrator</b>/README</p>
+    <h3 data-r>Module Migration AI</h3>
+    <figure class="flow" data-r>
+      <svg viewBox="0 0 560 150" role="img" aria-labelledby="fl1"><title id="fl1">Migration AI: a zipped module is scanned, split into one job per file, sent to the AI provider you choose, and returned as a migrated module.</title>
+        <rect class="nd" x="6" y="34" width="88" height="56" rx="8"/><text class="ft" x="50" y="58" text-anchor="middle">module</text><text class="fs" x="50" y="75" text-anchor="middle">.zip</text>
+        <rect class="nd" x="124" y="34" width="86" height="56" rx="8"/><text class="ft" x="167" y="58" text-anchor="middle">scan</text><text class="fs" x="167" y="75" text-anchor="middle">report</text>
+        <rect class="nd soft" x="240" y="34" width="96" height="56" rx="8"/><text class="ft" x="288" y="58" text-anchor="middle">job queue</text><text class="fs" x="288" y="75" text-anchor="middle">1 job a file</text>
+        <rect class="nd hot" x="366" y="34" width="96" height="56" rx="8"/><text class="ft hot-t" x="414" y="58" text-anchor="middle">AI</text><text class="fs hot-t" x="414" y="75" text-anchor="middle">your pick</text>
+        <rect class="nd" x="492" y="34" width="62" height="56" rx="8"/><text class="ft" x="523" y="58" text-anchor="middle">new</text><text class="fs" x="523" y="75" text-anchor="middle">module</text>
+        <path class="cn" d="M94 62H118"/><path class="ah" d="M124 62l-6-4v8z"/><path class="cn" d="M210 62H234"/><path class="ah" d="M240 62l-6-4v8z"/><path class="cn" d="M336 62H360"/><path class="ah" d="M366 62l-6-4v8z"/><path class="cn" d="M462 62H486"/><path class="ah" d="M492 62l-6-4v8z"/>
+        <text class="fs" x="150" y="112" text-anchor="middle">no AI key needed</text><text class="fs" x="300" y="112" text-anchor="middle">row-level locking</text><text class="fs" x="414" y="130" text-anchor="middle">retries on bad output</text>
+      </svg>
+      <figcaption>how it flows</figcaption>
+    </figure>
+    <dl>
+      <dt>Problem</dt>
+      <dd>Moving a custom module to a new Odoo version means reading every file for what changed. It is slow, and a missed rename only shows up later.</dd>
+      <dt>What it does</dt>
+      <dd>Upload a zipped module or point it at a folder on the server. It scans the code and lists what will break between your Odoo version and the target, anywhere from 11 to 20. Then it migrates file by file with the AI provider you pick: OpenAI, Gemini, Claude, Groq, DeepSeek, Ollama or any OpenAI-compatible endpoint. The static report works with no AI key at all.</dd>
+      <dt>Under the hood</dt>
+      <dd>One job per file, run by a queue I wrote for it. Jobs are claimed with <code>FOR UPDATE SKIP LOCKED</code>, stalled jobs are taken back, and failures retry with backoff. If the model sends back broken output, the job retries with the error attached. Paths inside uploaded zips are checked so an archive cannot write outside its folder.</dd>
+      <dt>Checked by</dt>
+      <dd>By hand on Odoo 17: upload, scan, static report, export. The AI migration needs a provider key and a running queue, so it is not under automated tests.</dd>
+    </dl>
+    <figure class="flip" data-tilt data-cursor="flip" data-r>
+      <div class="flip-in">
+        <div class="face front"><img src="img/ai_module_migrator.webp" width="800" height="400" loading="lazy" alt="Store banner for Module Migration AI"><span class="depth">Odoo 17 to 20</span></div>
+        <div class="face back" aria-hidden="true"><div><b>11 to 20</b><span>Odoo versions it reads</span></div><div><b>7</b><span>AI providers to choose from</span></div><div><b>by hand</b><span>how the AI step is tested</span></div></div>
       </div>
-      <div class="panel">
-        <h3>Safe with data</h3>
-        <ul>
-          <li>Secrets are <b>encrypted at rest</b>, with a safe path from existing plaintext.</li>
-          <li>API keys are scoped to the models and fields an integration needs.</li>
-          <li>Risky actions, such as switching on an access profile or taking over a storage prefix, show a preview or ask first.</li>
-        </ul>
+      <button class="flip-btn" type="button" aria-pressed="false" aria-label="Flip the card to see key facts about Module Migration AI">flip <svg class="ic" aria-hidden="true"><use href="#i-flip"/></svg></button>
+    </figure>
+    <p style="margin-top:14px" data-r><a class="go" href="https://apps.odoo.com/apps/modules/19.0/ai_module_migrator/" target="_blank" rel="noopener">open the store page <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
+  </article>
+
+  <article class="readme" data-mod="mdx_mcp_server">
+    <p class="path" data-r><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg><b>mdx_mcp_server</b>/README</p>
+    <h3 data-r>MCP Server &amp; Audit</h3>
+    <figure class="flow" data-r>
+      <svg viewBox="0 0 560 160" role="img" aria-labelledby="fl2"><title id="fl2">MCP Server: Claude, ChatGPT or Cursor call the MCP server, which checks tool permissions, holds writes for approval and logs every call, then acts in Odoo as the key's user.</title>
+        <rect class="nd" x="6" y="14" width="84" height="30" rx="7"/><text class="ft" x="48" y="33" text-anchor="middle">Claude</text>
+        <rect class="nd" x="6" y="64" width="84" height="30" rx="7"/><text class="ft" x="48" y="83" text-anchor="middle">ChatGPT</text>
+        <rect class="nd" x="6" y="114" width="84" height="30" rx="7"/><text class="ft" x="48" y="133" text-anchor="middle">Cursor</text>
+        <rect class="nd hot" x="190" y="22" width="170" height="116" rx="10"/><text class="ft hot-t" x="275" y="50" text-anchor="middle">MCP server</text><text class="fs hot-t" x="275" y="76" text-anchor="middle">tool permissions</text><text class="fs hot-t" x="275" y="96" text-anchor="middle">approval for writes</text><text class="fs hot-t" x="275" y="116" text-anchor="middle">call log</text>
+        <rect class="nd soft" x="424" y="46" width="130" height="68" rx="10"/><text class="ft" x="489" y="76" text-anchor="middle">Odoo</text><text class="fs" x="489" y="95" text-anchor="middle">as the key's user</text>
+        <path class="cn" d="M90 29C140 29 140 80 184 80"/><path class="cn" d="M90 79H184"/><path class="cn" d="M90 129C140 129 140 80 184 80"/><path class="ah" d="M190 80l-6-4v8z"/>
+        <path class="cn" d="M360 80H418"/><path class="ah" d="M424 80l-6-4v8z"/>
+      </svg>
+      <figcaption>how it flows</figcaption>
+    </figure>
+    <dl>
+      <dt>Problem</dt>
+      <dd>An AI assistant that can reach Odoo needs limits. Handing it one all-powerful key is how a chatbot ends up editing invoices.</dd>
+      <dt>What it does</dt>
+      <dd>Speaks the Model Context Protocol (2025-06-18) over streamable HTTP, so Claude, ChatGPT or Cursor can search and read records and, if you allow it, change them. Each tool has its own permission. A write can wait for a person to approve it, and every call is logged.</dd>
+      <dt>Under the hood</dt>
+      <dd>Calls run as the key's user, never as root, so Odoo's own access rules still apply. Sensitive fields are masked even for administrators. A dry run shows what a write would do and changes nothing.</dd>
+      <dt>Checked by</dt>
+      <dd>29 tests on Odoo 17. Among them: a write that needs approval does not write until someone approves it, and rejecting it leaves the record alone.</dd>
+    </dl>
+    <figure class="flip" data-tilt data-cursor="flip" data-r>
+      <div class="flip-in">
+        <div class="face front"><img src="img/mdx_mcp_server.webp" width="800" height="400" loading="lazy" alt="Store banner for MCP Server and Audit"><span class="depth">Odoo 17 to 20</span></div>
+        <div class="face back" aria-hidden="true"><div><b>29</b><span>tests on Odoo 17</span></div><div><b>2025-06-18</b><span>MCP protocol version</span></div><div><b>per tool</b><span>permissions and approvals</span></div></div>
       </div>
-      <div class="panel">
-        <h3>Built to survive real use</h3>
-        <ul>
-          <li>The migration add-on has its own <b>job queue</b>: row-level locking, retries with backoff and recovery of stalled jobs.</li>
-          <li>The object-storage add-on keeps working when the bucket is unreachable and retries later.</li>
-          <li>Webhooks are signed and retried until the receiver confirms.</li>
-        </ul>
+      <button class="flip-btn" type="button" aria-pressed="false" aria-label="Flip the card to see key facts about MCP Server and Audit">flip <svg class="ic" aria-hidden="true"><use href="#i-flip"/></svg></button>
+    </figure>
+    <p style="margin-top:14px" data-r><a class="go" href="https://apps.odoo.com/apps/modules/19.0/mdx_mcp_server/" target="_blank" rel="noopener">open the store page <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
+  </article>
+
+  <article class="readme" data-mod="mdx_api_gateway">
+    <p class="path" data-r><svg class="ic" aria-hidden="true"><use href="#i-plug"/></svg><b>mdx_api_gateway</b>/README</p>
+    <h3 data-r>REST API</h3>
+    <figure class="flow" data-r>
+      <svg viewBox="0 0 560 140" role="img" aria-labelledby="fl3"><title id="fl3">REST API: an integration such as a Shopify sync uses its own key, which maps to a profile of allowed models, fields, IPs and expiry, then reaches Odoo; webhooks go back out signed and retried.</title>
+        <rect class="nd" x="6" y="30" width="100" height="56" rx="8"/><text class="ft" x="56" y="54" text-anchor="middle">Shopify sync</text><text class="fs" x="56" y="71" text-anchor="middle">its own key</text>
+        <rect class="nd hot" x="150" y="20" width="150" height="76" rx="10"/><text class="ft hot-t" x="225" y="44" text-anchor="middle">profile</text><text class="fs hot-t" x="225" y="64" text-anchor="middle">models, fields</text><text class="fs hot-t" x="225" y="81" text-anchor="middle">IP, expiry, scope</text>
+        <rect class="nd soft" x="344" y="30" width="70" height="56" rx="8"/><text class="ft" x="379" y="63" text-anchor="middle">Odoo</text>
+        <rect class="nd" x="470" y="30" width="84" height="56" rx="8"/><text class="ft" x="512" y="54" text-anchor="middle">receiver</text><text class="fs" x="512" y="71" text-anchor="middle">webhook</text>
+        <path class="cn" d="M106 58H144"/><path class="ah" d="M150 58l-6-4v8z"/><path class="cn" d="M300 58H338"/><path class="ah" d="M344 58l-6-4v8z"/><path class="cn" d="M414 58H464"/><path class="ah" d="M470 58l-6-4v8z"/>
+        <text class="fs" x="225" y="120" text-anchor="middle">audit log of every call</text><text class="fs" x="442" y="104" text-anchor="middle">signed, retried</text>
+      </svg>
+      <figcaption>how it flows</figcaption>
+    </figure>
+    <dl>
+      <dt>Problem</dt>
+      <dd>Odoo's own RPC answers to one global key that reaches everything its user can. Give that key to a Shopify sync and you have given it the whole database.</dd>
+      <dt>What it does</dt>
+      <dd>Each integration gets its own key and profile: which models, which fields, which operations, an optional IP allowlist, an expiry date, or OAuth client credentials. On top of that sit bulk updates, upsert by external id, grouped aggregates, import and export, background jobs, signed webhooks with retries, an OpenAPI description cut down to the profile, and an audit log.</dd>
+      <dt>Under the hood</dt>
+      <dd>Every request is checked against the profile first and Odoo's access rules second, so a profile can only narrow what a user may do. On Odoo 17 the keys have no expiry column of their own, so the gateway keeps the expiry on its own record and enforces it on every call.</dd>
+      <dt>Checked by</dt>
+      <dd>98 tests on Odoo 17, including one that makes sure an ordinary global Odoo key is refused by the gateway.</dd>
+    </dl>
+    <figure class="flip" data-tilt data-cursor="flip" data-r>
+      <div class="flip-in">
+        <div class="face front"><img src="img/mdx_api_gateway.webp" width="800" height="400" loading="lazy" alt="Store banner for the Odoo REST API add-on"><span class="depth">Odoo 17 to 20</span></div>
+        <div class="face back" aria-hidden="true"><div><b>98</b><span>tests on Odoo 17</span></div><div><b>per key</b><span>models, fields, IPs and expiry</span></div><div><b>signed</b><span>webhooks, retried until answered</span></div></div>
       </div>
-    </div>
+      <button class="flip-btn" type="button" aria-pressed="false" aria-label="Flip the card to see key facts about the REST API add-on">flip <svg class="ic" aria-hidden="true"><use href="#i-flip"/></svg></button>
+    </figure>
+    <p style="margin-top:14px" data-r><a class="go" href="https://apps.odoo.com/apps/modules/19.0/mdx_api_gateway/" target="_blank" rel="noopener">open the store page <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a></p>
+  </article>
+
+  <table class="mods">
+    <thead><tr><th>Module</th><th>What it does</th><th class="n">Tests</th></tr></thead>
+    <tbody>
+      <tr data-mod="mdx_object_storage"><td><span class="tn"><svg class="ic" aria-hidden="true"><use href="#i-cloud"/></svg>mdx_object_storage</span></td><td><b>S3 Attachment Storage</b>Moves the filestore into an S3-compatible bucket. Work carries on if the bucket is down, and backups still include bucket files.</td><td class="n">57<span class="bar" style="--w:57%"></span></td></tr>
+      <tr data-mod="mdx_upgrade_scanner"><td><span class="tn"><svg class="ic" aria-hidden="true"><use href="#i-scan"/></svg>mdx_upgrade_scanner</span></td><td><b>Upgrade Scanner<span class="free">FREE</span></b>Finds deprecated or removed Odoo API. Each rule records the release that marked it and the release that removed it.</td><td class="n">47<span class="bar" style="--w:47%"></span></td></tr>
+      <tr data-mod="mdx_access_control"><td><span class="tn"><svg class="ic" aria-hidden="true"><use href="#i-users"/></svg>mdx_access_control</span></td><td><b>User Access Control</b>Profiles that hide fields, buttons, tabs and menus or block models. Preview a profile before it is enforced; blocked attempts are logged.</td><td class="n">37<span class="bar" style="--w:37%"></span></td></tr>
+      <tr data-mod="mdx_perf_auditor"><td><span class="tn"><svg class="ic" aria-hidden="true"><use href="#i-gauge"/></svg>mdx_perf_auditor</span></td><td><b>Performance Auditor</b>More than 40 read-only checks on the database, the ORM and scheduled jobs, each with a plain recommendation.</td><td class="n">31<span class="bar" style="--w:31%"></span></td></tr>
+      <tr data-mod="mdx_access_manager"><td><span class="tn"><svg class="ic" aria-hidden="true"><use href="#i-key"/></svg>mdx_access_manager</span></td><td><b>Access Rights Manager</b>What each user can really do, with a why on every row, a two-user comparison and a log of access changes.</td><td class="n">29<span class="bar" style="--w:29%"></span></td></tr>
+      <tr data-mod="mdx_backup_manager"><td><span class="tn"><svg class="ic" aria-hidden="true"><use href="#i-box"/></svg>mdx_backup_manager</span></td><td><b>Database Backup</b>Scheduled backups in Odoo's own restore format. Destination passwords are stored encrypted.</td><td class="n">17<span class="bar" style="--w:17%"></span></td></tr>
+      <tr data-mod="mdx_credential_vault"><td><span class="tn"><svg class="ic" aria-hidden="true"><use href="#i-lock"/></svg>mdx_credential_vault</span></td><td><b>Credential Encryption<span class="free">FREE</span></b>Encrypts stored secrets such as mail passwords and API keys, and upgrades existing plaintext values.</td><td class="n">10<span class="bar" style="--w:10%"></span></td></tr>
+    </tbody>
+  </table>
+  <p class="note" data-r>Test counts are for the Odoo 17 builds; the bars are drawn out of 100. Six more add-ons are on the store page: a SQL query builder, an XML ID finder, an access rights simulator, a BigCommerce connector, a login page designer with PIN and QR sign-in, and a tool that keeps debug mode on after module upgrades.</p>
+</section>
+
+<section id="depends" data-file="depends/">
+  <p class="file">arshat_ali/depends/</p>
+  <h2 data-r><span class="hi"><svg class="ic" aria-hidden="true"><use href="#i-code"/></svg></span>Skills</h2>
+  <p data-r>What I use, and the work behind each line.</p>
+  <ul class="tools" data-r aria-label="Main tools">
+    <li>Python</li><li>PostgreSQL</li><li>JavaScript</li><li>XML and QWeb</li><li>OWL</li><li>Git</li><li>REST</li><li>GraphQL</li><li>OAuth2</li><li>Webhooks</li><li>MCP</li>
+  </ul>
+
+  <article class="cat">
+    <header><span class="ci"><svg class="ic" aria-hidden="true"><use href="#i-code"/></svg></span><span class="no">01</span><h3>Odoo development</h3></header>
+    <ul>
+      <li><b>Python and the ORM</b><span>Sixteen published add-ons, plus client modules at Tefugen and Otibro.</span></li>
+      <li><b>Views and QWeb</b><span>Invoice, quotation and sales-order reports at Otibro. Purchase reports at Tefugen.</span></li>
+      <li><b>OWL and JavaScript</b><span>Components in four add-ons: the Performance Auditor dashboard, the Login Page Designer, Migration AI and the REST API.</span></li>
+      <li><b>Cron jobs and wizards</b><span>Scheduled backups, a job queue, retried webhooks, a preview step before an access profile goes live.</span></li>
+      <li><b>Versions</b><span>Odoo 11, and 16 to 20.</span></li>
+    </ul>
+  </article>
+
+  <article class="cat">
+    <header><span class="ci"><svg class="ic" aria-hidden="true"><use href="#i-up"/></svg></span><span class="no">02</span><h3>Upgrades and ports</h3></header>
+    <ul>
+      <li><b>Version migrations</b><span>Odoo 16 to 18 at Otibro. Modules for an Odoo 11 to 19 upgrade at Tefugen.</span></li>
+      <li><b>Porting add-ons</b><span>Built for 19 and carried to 17, 18 and 20 (13, 14 and 12 of them are on the store for those versions today), with a written list of what differs each time.</span></li>
+      <li><b>Deprecation scanning</b><span>Upgrade Scanner: every rule knows the release that marked an API and the release that removed it.</span></li>
+      <li><b>Migration tooling</b><span>Migration AI: a static report, then AI migration file by file, for Odoo 11 to 20.</span></li>
+    </ul>
+  </article>
+
+  <article class="cat">
+    <header><span class="ci"><svg class="ic" aria-hidden="true"><use href="#i-plug"/></svg></span><span class="no">03</span><h3>Integrations and APIs</h3></header>
+    <ul>
+      <li><b>REST, webhooks, OAuth2</b><span>Scoped keys, signed webhooks with retries, OAuth client credentials.</span></li>
+      <li><b>MCP</b><span>A server that lets AI assistants work with Odoo, with approvals and an audit log.</span></li>
+      <li><b>E-commerce</b><span>A BigCommerce connector built from scratch: products, stock, orders, refunds, webhooks, rate-limit retries. An existing Shopify connector extended.</span></li>
+      <li><b>Messaging and Google</b><span>WhatsApp Cloud API template management and message logs. A contribution to a Google Merchant Center OAuth2 integration.</span></li>
+    </ul>
+  </article>
+
+  <article class="cat">
+    <header><span class="ci"><svg class="ic" aria-hidden="true"><use href="#i-db"/></svg></span><span class="no">04</span><h3>Data and infrastructure</h3></header>
+    <ul>
+      <li><b>PostgreSQL and SQL</b><span>Row-level locking in a job queue, database checks in the Performance Auditor, a stock correction across 1,442 products.</span></li>
+      <li><b>Backups and storage</b><span>Backups in Odoo's restore format. The filestore in S3-compatible storage.</span></li>
+      <li><b>Encryption</b><span>Secrets encrypted at rest, with a safe path from existing plaintext.</span></li>
+    </ul>
+  </article>
+
+  <article class="cat">
+    <header><span class="ci"><svg class="ic" aria-hidden="true"><use href="#i-shield"/></svg></span><span class="no">05</span><h3>Security and access</h3></header>
+    <ul>
+      <li><b>Access rights and record rules</b><span>Two add-ons that explain them and restrict them. Menu access work at Tefugen.</span></li>
+      <li><b>Least privilege</b><span>Scoped API keys. AI calls that run as the key's user, never as root.</span></li>
+      <li><b>Audit trails</b><span>Logs of API requests, AI tool calls and blocked attempts.</span></li>
+    </ul>
+  </article>
+
+  <article class="cat">
+    <header><span class="ci"><svg class="ic" aria-hidden="true"><use href="#i-test"/></svg></span><span class="no">06</span><h3>Quality</h3></header>
+    <ul>
+      <li><b>Automated tests</b><span>355 tests across ten add-ons, run together on a fresh Odoo 17 database.</span></li>
+      <li><b>Real checks</b><span>Installs on an empty database, and real pg_dump backups run through the hooks.</span></li>
+      <li><b>Static analysis</b><span>Python AST and XML scanning for deprecated APIs.</span></li>
+    </ul>
+  </article>
+
+  <article class="cat">
+    <header><span class="ci"><svg class="ic" aria-hidden="true"><use href="#i-case"/></svg></span><span class="no">07</span><h3>Business domains</h3></header>
+    <ul>
+      <li><b>Sales, purchasing, inventory</b><span>Procurement, bill-of-materials and reporting changes for a manufacturer (GEECO).</span></li>
+      <li><b>Finance and tax</b><span>GST invoicing and reports. Indian financial-year numbering.</span></li>
+      <li><b>HR</b><span>Attendance, overtime and shift allocation (TREAT).</span></li>
+      <li><b>Retail and e-commerce</b><span>A Shopify-connected retailer on Odoo 19.</span></li>
+    </ul>
+  </article>
+</section>
+
+<section id="migrations" data-file="migrations/">
+  <p class="file">arshat_ali/migrations/</p>
+  <h2 data-r><span class="hi"><svg class="ic" aria-hidden="true"><use href="#i-case"/></svg></span>Experience</h2>
+  <ol class="jobs">
+    <li class="job open">
+      <button class="job-head" type="button" aria-expanded="true" aria-controls="job-1">
+        <time datetime="2025-12">2025-12 to now</time>
+        <span class="who"><b>Engineer</b><span><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg>Tefugen Technologies, Tiruchirappalli</span></span>
+        <span class="pm" aria-hidden="true"></span>
+      </button>
+      <div class="job-body" id="job-1"><div class="inner">
+        <ul>
+          <li>Migrated quality-assurance, customer-support, SMS and GST reporting modules for Bestomart's Odoo 11-to-19 upgrade; extended its existing Shopify connector.</li>
+          <li>Built GEECO stock-correction tooling: updated quantities for 1,442 products and reset stock for a 584-product list, with a UI workflow.</li>
+          <li>Built WhatsApp Cloud API template management, approval-status sync and message logs; contributed to a Google Merchant Center OAuth2 integration.</li>
+          <li>Implemented assigned GEECO procurement, bill-of-materials and reporting changes, and TREAT attendance, overtime and shift-allocation tasks.</li>
+        </ul>
+        <p class="also">Also worked on: purchase reports, financial-year numbering, menu access and notifications.</p>
+      </div></div>
+    </li>
+    <li class="job">
+      <button class="job-head" type="button" aria-expanded="false" aria-controls="job-2">
+        <time datetime="2025-01">2025-01 to 2025-11</time>
+        <span class="who"><b>Technical Consultant Trainee</b><span><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg>Otibro Techni, Coimbatore</span></span>
+        <span class="pm" aria-hidden="true"></span>
+      </button>
+      <div class="job-body" id="job-2"><div class="inner">
+        <ul>
+          <li>Migrated and customised Odoo 16-to-18 models, views and workflows.</li>
+          <li>Developed QWeb invoices, quotations and sales-order reports.</li>
+        </ul>
+      </div></div>
+    </li>
+    <li class="job">
+      <button class="job-head" type="button" aria-expanded="false" aria-controls="job-3">
+        <time datetime="2024-03">2024-03 to 2024-12</time>
+        <span class="who"><b>Odoo Developer Intern</b><span><svg class="ic" aria-hidden="true"><use href="#i-pin"/></svg>Otibro Techni, Chennai</span></span>
+        <span class="pm" aria-hidden="true"></span>
+      </button>
+      <div class="job-body" id="job-3"><div class="inner">
+        <ul>
+          <li>Customised sales, inventory and finance modules and QWeb reports using Python and PostgreSQL.</li>
+        </ul>
+      </div></div>
+    </li>
+  </ol>
+  <p class="note" data-r>Prefer a document? <a href="Arshat_Ali_Resume.pdf" download>Download the one-page resume (PDF)</a>.</p>
+  <div class="edu">
+    <div><svg class="ic" aria-hidden="true"><use href="#i-cap"/></svg>Master of Computer Applications, BIT Campus, Anna University <span>2022 to 2024</span></div>
+    <div><svg class="ic" aria-hidden="true"><use href="#i-cap"/></svg>Bachelor of Computer Applications, Jamal Mohamed College <span>2019 to 2022</span></div>
+    <div><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg>English, professional working proficiency <span>Tamil, native</span></div>
   </div>
 </section>
 
-<section id="work">
-  <div class="wrap">
-    <h2>Experience</h2>
-    <p class="lead">Working with Odoo since March 2024.</p>
-    <ol class="timeline">
-      <li>
-        <span class="when">Dec 2025 &ndash; present</span>
-        <h3>Engineer, Tefugen Technologies &middot; Tiruchirappalli</h3>
-        <p>Customising an Odoo 19 backend for a Shopify-connected retailer: purchase reports, GST invoicing, financial-year numbering, menu access and notifications.</p>
-      </li>
-      <li>
-        <span class="when">Jan 2025 &ndash; Nov 2025</span>
-        <h3>Technical Consultant Trainee, Otibro Techni &middot; Coimbatore</h3>
-        <p>Worked on Odoo 16 to 18 migrations and built QWeb document templates.</p>
-      </li>
-      <li>
-        <span class="when">Mar 2024 &ndash; Dec 2024</span>
-        <h3>Odoo Developer Intern, Otibro Techni &middot; Chennai</h3>
-        <p>Customised sales, inventory and finance modules and wrote QWeb reports.</p>
-      </li>
-    </ol>
+<div class="band-wrap" aria-hidden="true">
+  <div class="band out" data-base="-1"><div class="track"><span>17.0 <em></em> 18.0 <em></em> 19.0 <em></em> 20.0 <em></em> ORM <em></em> QWeb <em></em> OWL <em></em> PostgreSQL <em></em> REST <em></em> OAuth2 <em></em> webhooks <em></em> MCP <em></em> </span><span>17.0 <em></em> 18.0 <em></em> 19.0 <em></em> 20.0 <em></em> ORM <em></em> QWeb <em></em> OWL <em></em> PostgreSQL <em></em> REST <em></em> OAuth2 <em></em> webhooks <em></em> MCP <em></em> </span></div></div>
+</div>
+
+<section id="tests" data-file="tests/">
+  <p class="file">arshat_ali/tests/</p>
+  <h2 data-r><span class="hi"><svg class="ic" aria-hidden="true"><use href="#i-test"/></svg></span>How I check my work</h2>
+  <p data-r>Most of the add-ons ship with their own tests. On 25 October I moved ten of them from Odoo 18 down to Odoo 17 and ran all 355 tests together on a fresh database.</p>
+  <p data-r>The first runs failed in places I had not expected. A view field that Odoo 17 insists on declaring. An API key function with a different signature. A cron job with no failure counter, which a performance check depended on. Each one turned up in an install or a test, not in a customer's database.</p>
+  <div class="cannot" data-r>
+    <h3>What I have not tested</h3>
+    <ul>
+      <li>The AI migration itself. It needs a provider key and a running queue.</li>
+      <li>A real S3 bucket. The tests use a fake one.</li>
+      <li>Odoo Enterprise, and a real browser session on the Odoo 17 builds.</li>
+    </ul>
   </div>
 </section>
 
-<section id="contact">
-  <div class="wrap">
-    <h2>Work with me</h2>
-    <p class="lead">I take on custom Odoo add-ons, moving your own modules to a newer Odoo version, API and webhook integrations, and access-control reviews. I am also looking for a full-time Odoo role, including abroad.</p>
-    <div class="contact" id="contact-links">
-      <a class="btn primary" href="https://apps.odoo.com/apps/modules/browse?author=ModuleDex" target="_blank" rel="noopener">My Odoo Apps Store page</a>
-    </div>
+<section id="readme" data-file="README">
+  <p class="file">arshat_ali/README</p>
+  <h2 data-r><span class="hi"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg></span>Work with me</h2>
+  <ul class="rows">
+    <li><span>Roles</span><div>Odoo developer or consultant, including a move abroad.</div></li>
+    <li><span>Freelance</span><div>Porting your own modules to a newer Odoo version, API and webhook integrations, access-control reviews, custom modules.</div></li>
+    <li><span>Query</span><div>Use the <a href="query.html">query page</a>. It goes straight to my email inbox.</div></li>
+    <li><span>Discord</span><div>You can message me on <a href="https://discord.com/users/761956568677482516" target="_blank" rel="noopener">Discord</a> too.</div></li>
+    <li><span>Languages</span><div>English at work, Tamil at home.</div></li>
+  </ul>
+  <div class="links" id="links" data-r>
+    <a class="btn main" href="query.html"><svg class="ic" aria-hidden="true"><use href="#i-send"/></svg>Send a query</a>
+    <a class="btn" href="https://discord.com/users/761956568677482516" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-chat"/></svg>Discord</a>
+    <a class="btn" href="Arshat_Ali_Resume.pdf" download><svg class="ic" aria-hidden="true"><use href="#i-down"/></svg>Resume (PDF)</a>
+    <a class="btn" href="https://apps.odoo.com/apps/modules/browse?author=ModuleDex" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-cube"/></svg>See all add-ons</a>
   </div>
+  <noscript><p class="note" style="margin-top:14px">Email: arshat_ali [at] protonmail.com</p></noscript>
 </section>
 
 </main>
+</div>
 
 <footer>
-  <div class="wrap">&copy; <span id="year">2026</span> Arshat Ali. Odoo and the Odoo Apps Store are trademarks of Odoo S.A.; this site is not affiliated with Odoo.</div>
+  <p class="toggles"><button class="motion" type="button" aria-pressed="true" title="Turn the animations on or off for this site"><span class="sw" aria-hidden="true"></span><span class="lbl">motion: on</span></button><button class="theme" type="button" title="Light by day, dark by evening. Click to choose light, dark or automatic."><svg class="ic" aria-hidden="true"><use href="#i-sun"/></svg><span class="lbl">theme: auto, light</span></button></p>
+  <p>&copy; <span id="year">2026</span> Arshat Ali. Odoo and the Odoo Apps Store belong to Odoo S.A.; this site has nothing to do with them.</p>
+  <p>Set in Public Sans and B612 Mono (open licence), with a dot-matrix display face drawn for this site. Motion follows your device's reduced-motion setting until you flip the switch. The colour theme follows your clock: light from 6 am to 6 pm, dark after that. Source of this page: <a href="https://github.com/arshat-81/arshat-ali-portfolio" target="_blank" rel="noopener">github.com/arshat-81/arshat-ali-portfolio</a></p>
 </footer>
 
+<script src="site.js?v=8" defer></script>
 <script>
-/* EDIT THESE: anything left empty simply does not appear on the page. */
-var CONTACT = {
-  email: "",      // for example "you@example.com"
-  linkedin: "",   // full URL, for example "https://www.linkedin.com/in/your-name/"
-  github: "",     // full URL of a PUBLIC profile or repository
-  resume: ""      // path or URL of a PDF, for example "resume.pdf"
-};
-
-(function () {
-  var box = document.getElementById("contact-links");
-  var items = [];
-  if (CONTACT.email)    items.push(["Email me", "mailto:" + CONTACT.email, false]);
-  if (CONTACT.linkedin) items.push(["LinkedIn", CONTACT.linkedin, true]);
-  if (CONTACT.github)   items.push(["GitHub", CONTACT.github, true]);
-  if (CONTACT.resume)   items.push(["Download my CV", CONTACT.resume, true]);
-  items.push(["My Odoo Apps Store page", "https://apps.odoo.com/apps/modules/browse?author=ModuleDex", true]);
-
-  box.textContent = "";
-  items.forEach(function (item, index) {
-    var a = document.createElement("a");
-    a.className = index === 0 ? "btn primary" : "btn ghost";
-    a.textContent = item[0];
-    a.href = item[1];
-    if (item[2]) { a.target = "_blank"; a.rel = "noopener"; }
-    box.appendChild(a);
-  });
-
-  var y = document.getElementById("year");
-  if (y) y.textContent = new Date().getFullYear();
-})();
+/* Safety net: if the script above did not finish, show everything instead of leaving blanks. */
+setTimeout(function () { if (!window.__ok) { document.documentElement.classList.add("ready", "reveal-all"); var b = document.getElementById("boot"); if (b) b.remove(); document.body.classList.remove("booting"); } }, 2500);
 </script>
 </body>
 </html>
