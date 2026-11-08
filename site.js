@@ -63,7 +63,7 @@
       '<span class="d">$</span> odoo-bin -d arshat_ali -i arshat_ali --test-enable',
       G + 'odoo.modules.loading: loading 1 modules...',
       G + 'odoo.modules.loading: Loading module arshat_ali (1/1)',
-      G + 'odoo.modules.module: 16 add-ons, 4 versions, 1 person',
+      G + 'odoo.modules.module: 26 add-ons, 4 versions, 1 person',
       G + 'odoo.tests.result: 0 failed, 0 error(s) of 355 tests',
       G + 'odoo.service.server: HTTP service running on arshat-ali.runs-on.dev'
     ];
@@ -122,10 +122,10 @@
   }
   function countAll() { $$("[data-count]").forEach(function (el) { el.textContent = el.getAttribute("data-count"); }); }
 
-  /* ---------- add-ons by Odoo version (from the store listings on 26 October 2026) ---------- */
+  /* ---------- add-ons by Odoo version (from the store listings on 8 November 2026) ---------- */
   var MODS = [
     ["ai_module_migrator", "Module Migration AI", [17, 18, 19, 20]],
-    ["mdx_mcp_server", "MCP Server", [17, 18, 19, 20]],
+    ["mdx_mcp_server", "Claude Connector for Odoo", [17, 18, 19, 20]],
     ["mdx_api_gateway", "REST API", [17, 18, 19, 20]],
     ["mdx_object_storage", "S3 Attachment Storage", [17, 18, 19, 20]],
     ["mdx_access_control", "User Access Control", [17, 18, 19, 20]],
@@ -134,12 +134,22 @@
     ["mdx_backup_manager", "Database Backup", [17, 18, 19, 20]],
     ["mdx_credential_vault", "Credential Encryption", [17, 18, 19, 20]],
     ["mdx_security_simulator", "Access Rights Simulator", [17, 18, 19, 20]],
-    ["mdx_upgrade_scanner", "Upgrade Scanner", [17, 18, 19]],
-    ["mdx_external_id_finder", "XML ID Finder", [17, 18, 19]],
-    ["data_insight_workbench", "SQL Query Builder", [17, 18, 19]],
+    ["mdx_upgrade_scanner", "Upgrade Scanner", [17, 18, 19, 20]],
+    ["mdx_external_id_finder", "XML ID Finder", [17, 18, 19, 20]],
+    ["data_insight_workbench", "SQL Query Builder", [17, 18, 19, 20]],
     ["mdx_keep_debug", "Keep Debug Mode On", [18, 19, 20]],
     ["mdx_bigcommerce_connector", "BigCommerce Connector", [19, 20]],
-    ["mdx_login_studio", "Login Page Designer", [19]]
+    ["mdx_login_studio", "Login Page Designer", [17, 18, 19, 20]],
+    ["mdx_access_control_advanced", "Access Control Advanced", [17, 18, 19, 20]],
+    ["mdx_backup_lite", "Free Database Backup", [17, 18, 19, 20]],
+    ["mdx_mcp_access", "MCP Access Control", [17, 18, 19, 20]],
+    ["mdx_mcp_business", "Claude Business Tools", [17, 18, 19, 20]],
+    ["mdx_mcp_customize", "AI Customization", [17, 18, 19, 20]],
+    ["mdx_mcp_dev", "MCP Developer Tools", [17, 18, 19, 20]],
+    ["mdx_mcp_oauth", "MCP OAuth 2.1", [17, 18, 19, 20]],
+    ["mdx_password_policy", "Password Policy", [17, 19, 20]],
+    ["mdx_saml_scim", "SAML SSO and SCIM", [17, 18, 19, 20]],
+    ["mdx_ai_providers", "Claude and Ollama for Odoo AI", [19]]
   ];
   var selected = 0;
   function selectVersion(v) {

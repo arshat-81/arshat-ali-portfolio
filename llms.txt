@@ -1,6 +1,6 @@
 # Arshat Ali
 
-> Arshat Ali is an Odoo developer from Thiruvarur, Tamil Nadu, India. He writes Odoo add-ons for upgrades, access control, backups, APIs and AI, and publishes them on the Odoo Apps Store under the name ModuleDex. Sixteen add-ons are live, for Odoo 17 to 20. He has worked with Odoo since March 2024 and is open to Odoo roles, including abroad, and to freelance work.
+> Arshat Ali is an Odoo developer from Thiruvarur, Tamil Nadu, India. He writes Odoo add-ons for upgrades, access control, backups, APIs and AI, and publishes them on the Odoo Apps Store under the name ModuleDex. Twenty-six add-ons are live, for Odoo 17 to 20 (23 on Odoo 17, 23 on Odoo 18, 26 on Odoo 19, 25 on Odoo 20). He has worked with Odoo since March 2024 and is open to Odoo roles, including abroad, and to freelance work.
 
 ## Pages
 
@@ -11,15 +11,27 @@
 ## Add-ons on the Odoo Apps Store (ModuleDex)
 
 - [Module Migration AI](https://apps.odoo.com/apps/modules/19.0/ai_module_migrator/): moves a custom Odoo module between versions 11 to 20, with a static report and AI migration file by file.
-- [MCP Server and Audit](https://apps.odoo.com/apps/modules/19.0/mdx_mcp_server/): lets AI assistants work with Odoo over the Model Context Protocol, with per-tool permissions, approvals and a call log.
+- [Claude Connector for Odoo](https://apps.odoo.com/apps/modules/19.0/mdx_mcp_server/): free MCP server that lets Claude, ChatGPT and Cursor work in Odoo, with per-tool permissions, approvals and a call log.
 - [REST API](https://apps.odoo.com/apps/modules/19.0/mdx_api_gateway/): scoped API keys per integration, signed webhooks, OAuth client credentials and an audit log.
 - [S3 Attachment Storage](https://apps.odoo.com/apps/modules/19.0/mdx_object_storage/): moves the Odoo filestore into an S3-compatible bucket.
 - [User Access Control](https://apps.odoo.com/apps/modules/19.0/mdx_access_control/): hides fields, buttons, tabs and menus, or blocks models, per user profile.
 - [Access Rights Manager](https://apps.odoo.com/apps/modules/19.0/mdx_access_manager/): shows what each user can really do, and why.
 - [Performance Auditor](https://apps.odoo.com/apps/modules/19.0/mdx_perf_auditor/): more than 40 read-only checks on the database, the ORM and scheduled jobs.
 - [Database Backup](https://apps.odoo.com/apps/modules/19.0/mdx_backup_manager/): scheduled backups in Odoo's own restore format.
-- [Credential Encryption](https://apps.odoo.com/apps/modules/19.0/mdx_credential_vault/): encrypts stored secrets such as mail passwords and API keys.
-- [Upgrade Scanner](https://apps.odoo.com/apps/modules/19.0/mdx_upgrade_scanner/): finds deprecated or removed Odoo API in custom code.
+- [Credential Encryption](https://apps.odoo.com/apps/modules/19.0/mdx_credential_vault/): free; encrypts stored secrets such as mail passwords and API keys.
+- [Upgrade Scanner](https://apps.odoo.com/apps/modules/19.0/mdx_upgrade_scanner/): free; finds deprecated or removed Odoo API in custom code.
+- [Login Page Designer](https://apps.odoo.com/apps/modules/19.0/mdx_login_studio/): design the login page; sign in with a PIN, a pattern, an emailed code, a phone scan or a fingerprint.
+- [Access Control Advanced](https://apps.odoo.com/apps/modules/19.0/mdx_access_control_advanced/): developer mode off per user, no module installs, restricted export and import, conditional fields.
+- [Free Database Backup](https://apps.odoo.com/apps/modules/19.0/mdx_backup_lite/): free; scheduled, verified backups to a folder on the server.
+- [MCP Access Control](https://apps.odoo.com/apps/modules/19.0/mdx_mcp_access/): the assistant sees only what the user sees: hidden fields stay hidden.
+- [Claude Business Tools](https://apps.odoo.com/apps/modules/19.0/mdx_mcp_business/): twenty business tools for the MCP server: sales, stock and money answers, and quotations, invoices and stock counts that wait for approval.
+- [AI Customization](https://apps.odoo.com/apps/modules/19.0/mdx_mcp_customize/): an assistant adds custom fields, view changes and automations, with preview, approval and undo.
+- [MCP Developer Tools](https://apps.odoo.com/apps/modules/19.0/mdx_mcp_dev/): twelve tools so coding assistants can ask a running Odoo how it is built.
+- [MCP OAuth 2.1](https://apps.odoo.com/apps/modules/19.0/mdx_mcp_oauth/): OAuth 2.1 sign-in so claude.ai, ChatGPT and phones can connect to the MCP server.
+- [Password Policy](https://apps.odoo.com/apps/modules/19.0/mdx_password_policy/): free; password expiry, history, complexity rules and forced changes.
+- [SAML SSO and SCIM](https://apps.odoo.com/apps/modules/19.0/mdx_saml_scim/): SAML 2.0 single sign-on and SCIM provisioning.
+Six more are listed on the author page: an SQL query builder, an XML ID finder, an access rights simulator, a BigCommerce connector, Claude and Ollama for Odoo's AI, and a tool that keeps debug mode on.
+
 - [All ModuleDex add-ons](https://apps.odoo.com/apps/modules/browse?author=ModuleDex)
 
 ## Elsewhere
